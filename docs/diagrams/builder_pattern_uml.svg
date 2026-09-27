@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 560" width="100%" height="100%" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <marker id="inherits" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="1,1 13,7 1,13" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="diamond" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="7,1 13,7 7,13 1,7" fill="#1e293b" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#475569" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="32" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle">Builder Design Pattern - Class Diagram</text>
+
+  <!-- Director: ComputerAssembler -->
+  <g transform="translate(40, 70)">
+    <rect width="250" height="150" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#2563eb"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">ComputerAssembler</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- builder : ComputerBuilder*</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ setBuilder(b : ComputerBuilder*) : void</text>
+    <text x="10" y="112" font-size="12" fill="#334155">+ constructFullPC() : void</text>
+    <text x="10" y="134" font-size="12" fill="#334155">+ constructMinimalPC() : void</text>
+  </g>
+
+  <!-- Builder Interface -->
+  <g transform="translate(370, 70)">
+    <rect width="260" height="210" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
+    <rect width="260" height="42" rx="6" fill="#0284c7"/>
+    <text x="130" y="18" font-size="11" font-style="italic" fill="#e0f2fe" text-anchor="middle">&lt;&lt;interface&gt;&gt;</text>
+    <text x="130" y="34" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">ComputerBuilder</text>
+    <line x1="0" y1="42" x2="260" y2="42" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="65" font-size="12" fill="#334155">+ reset()* : void</text>
+    <text x="10" y="85" font-size="12" fill="#334155">+ buildMotherboard()* : void</text>
+    <text x="10" y="105" font-size="12" fill="#334155">+ buildCPU()* : void</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ buildRAM()* : void</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ buildStorage()* : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ buildGPU()* : void</text>
+    <text x="10" y="185" font-size="12" fill="#334155">+ buildPowerSupply()* : void</text>
+    <text x="10" y="205" font-size="12" fill="#334155">+ getResult()* : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Product: Computer -->
+  <g transform="translate(700, 70)">
+    <rect width="220" height="210" rx="6" fill="#f8fafc" stroke="#059669" stroke-width="2"/>
+    <rect width="220" height="35" rx="6" fill="#059669"/>
+    <text x="110" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Computer (Product)</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- cpu : string</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- ram : string</text>
+    <text x="10" y="91" font-size="12" fill="#334155">- storage : string</text>
+    <text x="10" y="109" font-size="12" fill="#334155">- gpu : string</text>
+    <text x="10" y="127" font-size="12" fill="#334155">- psu, cooling : string</text>
+    <line x1="0" y1="138" x2="220" y2="138" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="158" font-size="12" fill="#334155">+ setCPU(), setRAM()...</text>
+    <text x="10" y="178" font-size="12" fill="#334155">+ setGPU(), setStorage()...</text>
+    <text x="10" y="198" font-size="12" fill="#334155">+ displaySpecifications() : void</text>
+  </g>
+
+  <!-- Concrete Builder 1 -->
+  <g transform="translate(200, 360)">
+    <rect width="250" height="160" rx="6" fill="#f8fafc" stroke="#6366f1" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#6366f1"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">GamingComputerBuilder</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- computer : unique_ptr&lt;Computer&gt;</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ buildCPU() [i9-14900K]</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ buildGPU() [RTX 4090 24GB]</text>
+    <text x="10" y="130" font-size="12" fill="#334155">+ buildCooling() [360mm AIO]</text>
+    <text x="10" y="150" font-size="12" fill="#334155">+ getResult() : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Concrete Builder 2 -->
+  <g transform="translate(540, 360)">
+    <rect width="250" height="160" rx="6" fill="#f8fafc" stroke="#6366f1" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#6366f1"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">OfficeComputerBuilder</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- computer : unique_ptr&lt;Computer&gt;</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ buildCPU() [i5-13400]</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ buildGPU() [Intel UHD 730]</text>
+    <text x="10" y="130" font-size="12" fill="#334155">+ buildCooling() [Stock Air]</text>
+    <text x="10" y="150" font-size="12" fill="#334155">+ getResult() : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Connecting Lines -->
+  <!-- Director to Interface (Aggregation) -->
+  <line x1="290" y1="145" x2="370" y2="145" stroke="#1e293b" stroke-width="2" marker-start="url(#diamond)" />
+  <text x="325" y="138" font-size="11" fill="#475569" text-anchor="middle">aggregates</text>
+
+  <!-- Concrete Builders to Interface (Inheritance / Implementation) -->
+  <path d="M 325 360 L 325 315 L 500 315 L 500 280" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#inherits)"/>
+  <path d="M 665 360 L 665 315 L 500 315" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="500" y="330" font-size="11" fill="#475569" text-anchor="middle">&lt;&lt;implements&gt;&gt;</text>
+
+  <!-- Concrete Builders to Product (Dependency / Creates) -->
+  <path d="M 450 440 L 810 440 L 810 280" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="815" y="370" font-size="11" fill="#059669">«creates»</text>
+</svg>

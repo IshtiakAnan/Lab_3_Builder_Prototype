@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 560" width="100%" height="100%" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <marker id="inherits" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="1,1 13,7 1,13" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="diamond" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="7,1 13,7 7,13 1,7" fill="#1e293b" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#475569" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="32" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle">Prototype Design Pattern - Class Diagram</text>
+
+  <!-- Prototype Registry: UnitRegistry -->
+  <g transform="translate(40, 70)">
+    <rect width="280" height="150" rx="6" fill="#f8fafc" stroke="#d97706" stroke-width="2"/>
+    <rect width="280" height="35" rx="6" fill="#d97706"/>
+    <text x="140" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">UnitRegistry (Prototype Cache)</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- prototypes : unordered_map&lt;string, GameUnit*&gt;</text>
+    <line x1="0" y1="68" x2="280" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="92" font-size="12" fill="#334155">+ registerPrototype(key, unit) : void</text>
+    <text x="10" y="118" font-size="12" fill="#334155">+ spawnUnit(key : string) : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="138" font-size="11" font-style="italic" fill="#64748b">  [calls prototype->clone()]</text>
+  </g>
+
+  <!-- Base Prototype Interface: GameUnit -->
+  <g transform="translate(480, 70)">
+    <rect width="290" height="160" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
+    <rect width="290" height="42" rx="6" fill="#0284c7"/>
+    <text x="145" y="18" font-size="11" font-style="italic" fill="#e0f2fe" text-anchor="middle">&lt;&lt;interface / abstract&gt;&gt;</text>
+    <text x="145" y="34" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">GameUnit (Prototype)</text>
+    <line x1="0" y1="42" x2="290" y2="42" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="65" font-size="12" font-weight="bold" fill="#0369a1">+ clone()* : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="88" font-size="12" fill="#334155">+ render(unitId : int)* : void</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ setPosition(x : int, y : int)* : void</text>
+    <text x="10" y="132" font-size="12" fill="#334155">+ setCustomName(name : string)* : void</text>
+  </g>
+
+  <!-- Concrete Prototype 1: Swordsman -->
+  <g transform="translate(30, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Swordsman</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, attackPower, armor : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- weapon : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Swordsman(const Swordsman&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Concrete Prototype 2: Archer -->
+  <g transform="translate(345, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Archer</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, attackRange, agility : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- bowType : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Archer(const Archer&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Concrete Prototype 3: Mage -->
+  <g transform="translate(660, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Mage</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, mana : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- spellElement, staffType : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Mage(const Mage&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Connecting Lines -->
+  <!-- Registry aggregates Prototype -->
+  <line x1="320" y1="145" x2="480" y2="145" stroke="#1e293b" stroke-width="2" marker-start="url(#diamond)" />
+  <text x="400" y="138" font-size="11" fill="#475569" text-anchor="middle">caches &amp; clones</text>
+
+  <!-- Concrete Prototypes to Base Interface (Inheritance / Implementation) -->
+  <path d="M 160 340 L 160 290 L 625 290 L 625 230" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#inherits)"/>
+  <path d="M 475 340 L 475 290" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <path d="M 790 340 L 790 290 L 625 290" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="625" y="305" font-size="11" fill="#475569" text-anchor="middle">&lt;&lt;implements&gt;&gt;</text>
+</svg>

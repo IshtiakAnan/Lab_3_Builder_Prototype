@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CSE 3206 Lab 3 Documentation - Group 2</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+  body {
+    font-family: 'Liberation Serif', 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.45;
+    color: #111;
+    margin: 0;
+    padding: 10px;
+  }
+  .header-box {
+    text-align: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+  }
+  .university-title {
+    font-size: 16pt;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .dept-title {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #334155;
+    margin: 4px 0;
+  }
+  .meta-table {
+    width: 100%;
+    margin: 15px auto;
+    border-collapse: collapse;
+    font-size: 10.5pt;
+  }
+  .meta-table td {
+    padding: 4px 8px;
+    border: 1px solid #cbd5e1;
+  }
+  .meta-table td.label {
+    background-color: #f1f5f9;
+    font-weight: bold;
+    width: 25%;
+  }
+  h1 {
+    font-size: 15pt;
+    color: #1e3a8a;
+    border-bottom: 1.5px solid #1e3a8a;
+    padding-bottom: 4px;
+    margin-top: 25px;
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-size: 13pt;
+    color: #0369a1;
+    margin-top: 20px;
+    margin-bottom: 8px;
+  }
+  h3 {
+    font-size: 11.5pt;
+    color: #0f172a;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+  p, li {
+    text-align: justify;
+    margin: 4px 0;
+  }
+  pre {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-left: 4px solid #2563eb;
+    padding: 8px 12px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 8.5pt;
+    line-height: 1.3;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    margin: 8px 0;
+  }
+  .svg-container {
+    text-align: center;
+    margin: 15px 0;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 10px;
+    background: #ffffff;
+  }
+  table.comp-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 9.5pt;
+  }
+  table.comp-table th, table.comp-table td {
+    border: 1px solid #94a3b8;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  table.comp-table th {
+    background-color: #e2e8f0;
+    font-weight: bold;
+    color: #0f172a;
+  }
+  .page-break {
+    page-break-before: always;
+  }
+</style>
+</head>
+<body>
+
+<div class="header-box">
+  <div class="university-title">Rajshahi University of Engineering &amp; Technology</div>
+  <div class="dept-title">Department of Computer Science &amp; Engineering</div>
+  <p style="margin: 4px 0; font-size: 10pt; font-style: italic;">Heaven’s light is our guide</p>
+  <h2 style="margin: 8px 0 2px 0; color: #1e3a8a;">CSE 3206: Software Engineering Sessional</h2>
+  <h3 style="margin: 0; color: #475569;">Lab 3: Design Pattern Analysis, Implementation and Code Review</h3>
+</div>
+
+<table class="meta-table">
+  <tr>
+    <td class="label">Assigned Presentation Group:</td>
+    <td>Group 2</td>
+    <td class="label">Lab Total Marks:</td>
+    <td>08 Marks</td>
+  </tr>
+  <tr>
+    <td class="label">Assigned Design Patterns:</td>
+    <td colspan="3"><strong>1. Builder Pattern &nbsp;&nbsp;|&nbsp;&nbsp; 2. Prototype Pattern</strong> (Both Creational Patterns)</td>
+  </tr>
+  <tr>
+    <td class="label">Deliverables Covered:</td>
+    <td colspan="3">1. Technical Documentation &nbsp;|&nbsp; 2. Source Code &nbsp;|&nbsp; 3. UML Diagrams &nbsp;|&nbsp; 4. Execution Output &nbsp;|&nbsp; 5. Peer Review Rubric</td>
+  </tr>
+</table>
+
+<h1>PART I: BUILDER DESIGN PATTERN</h1>
+
+<h3>1. Pattern Name</h3>
+<p><strong>Builder Pattern</strong></p>
+
+<h3>2. Category</h3>
+<p><strong>Creational Design Pattern</strong></p>
+
+<h3>3. Intent</h3>
+<p>The Builder Pattern separates the construction of a complex object from its internal representation, allowing the exact same construction process to produce diverse types and configurations of an object. It enables incremental, step-by-step assembly rather than forcing clients to pass massive argument lists to overloaded constructors.</p>
+
+<h3>4. Problem Statement</h3>
+<p>In modern software engineering, objects frequently contain many attributes—some mandatory and many optional. In our real-world scenario of a <strong>Custom Desktop Computer Assembly System</strong>, an assembled PC contains: Motherboard, Processor, RAM, Storage (NVMe/SATA), Graphics Card, Power Supply, Liquid/Air Cooling, and Wi-Fi modules.</p>
+<p>A conventional constructor-based implementation suffers from:</p>
+<ul>
+  <li><strong>Telescoping Constructor Anti-Pattern:</strong> Overloading constructors with 5, 6, 7, or 8+ parameters becomes completely unmaintainable.</li>
+  <li><strong>Parameter Ordering Confusion:</strong> Consecutive parameters sharing identical types (e.g., strings or integers) lead to silent logical bugs when values are mistakenly swapped.</li>
+  <li><strong>Inconsistent Object State:</strong> Using a parameterless constructor followed by public setters leaves the object in a partially initialized, unstable state while being configured.</li>
+</ul>
+
+<h3>5. Motivation: Why Normal Implementation is Poor</h3>
+<p>In a direct constructor design, constructing an office PC without a dedicated GPU or liquid cooling forces callers to pass empty strings or null pointers:</p>
+<pre>Computer officePC("MSI B760", "Intel i5", "16GB", "512GB", "", "550W", "Stock Fan", false);</pre>
+<p>Adding new hardware options directly modifies existing constructors, breaking existing client code and violating the <strong>Open/Closed Principle (OCP)</strong>. The Builder Pattern decouples assembly logic into dedicated builder objects, completely resolving this problem.</p>
+
+<h3>6. Pattern Structure (UML Class Diagram)</h3>
+<div class="svg-container">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 560" width="100%" height="100%" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <marker id="inherits" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="1,1 13,7 1,13" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="diamond" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="7,1 13,7 7,13 1,7" fill="#1e293b" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#475569" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="32" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle">Builder Design Pattern - Class Diagram</text>
+
+  <!-- Director: ComputerAssembler -->
+  <g transform="translate(40, 70)">
+    <rect width="250" height="150" rx="6" fill="#f8fafc" stroke="#2563eb" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#2563eb"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">ComputerAssembler</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- builder : ComputerBuilder*</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ setBuilder(b : ComputerBuilder*) : void</text>
+    <text x="10" y="112" font-size="12" fill="#334155">+ constructFullPC() : void</text>
+    <text x="10" y="134" font-size="12" fill="#334155">+ constructMinimalPC() : void</text>
+  </g>
+
+  <!-- Builder Interface -->
+  <g transform="translate(370, 70)">
+    <rect width="260" height="210" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
+    <rect width="260" height="42" rx="6" fill="#0284c7"/>
+    <text x="130" y="18" font-size="11" font-style="italic" fill="#e0f2fe" text-anchor="middle">&lt;&lt;interface&gt;&gt;</text>
+    <text x="130" y="34" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">ComputerBuilder</text>
+    <line x1="0" y1="42" x2="260" y2="42" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="65" font-size="12" fill="#334155">+ reset()* : void</text>
+    <text x="10" y="85" font-size="12" fill="#334155">+ buildMotherboard()* : void</text>
+    <text x="10" y="105" font-size="12" fill="#334155">+ buildCPU()* : void</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ buildRAM()* : void</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ buildStorage()* : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ buildGPU()* : void</text>
+    <text x="10" y="185" font-size="12" fill="#334155">+ buildPowerSupply()* : void</text>
+    <text x="10" y="205" font-size="12" fill="#334155">+ getResult()* : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Product: Computer -->
+  <g transform="translate(700, 70)">
+    <rect width="220" height="210" rx="6" fill="#f8fafc" stroke="#059669" stroke-width="2"/>
+    <rect width="220" height="35" rx="6" fill="#059669"/>
+    <text x="110" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Computer (Product)</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- cpu : string</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- ram : string</text>
+    <text x="10" y="91" font-size="12" fill="#334155">- storage : string</text>
+    <text x="10" y="109" font-size="12" fill="#334155">- gpu : string</text>
+    <text x="10" y="127" font-size="12" fill="#334155">- psu, cooling : string</text>
+    <line x1="0" y1="138" x2="220" y2="138" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="158" font-size="12" fill="#334155">+ setCPU(), setRAM()...</text>
+    <text x="10" y="178" font-size="12" fill="#334155">+ setGPU(), setStorage()...</text>
+    <text x="10" y="198" font-size="12" fill="#334155">+ displaySpecifications() : void</text>
+  </g>
+
+  <!-- Concrete Builder 1 -->
+  <g transform="translate(200, 360)">
+    <rect width="250" height="160" rx="6" fill="#f8fafc" stroke="#6366f1" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#6366f1"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">GamingComputerBuilder</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- computer : unique_ptr&lt;Computer&gt;</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ buildCPU() [i9-14900K]</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ buildGPU() [RTX 4090 24GB]</text>
+    <text x="10" y="130" font-size="12" fill="#334155">+ buildCooling() [360mm AIO]</text>
+    <text x="10" y="150" font-size="12" fill="#334155">+ getResult() : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Concrete Builder 2 -->
+  <g transform="translate(540, 360)">
+    <rect width="250" height="160" rx="6" fill="#f8fafc" stroke="#6366f1" stroke-width="2"/>
+    <rect width="250" height="35" rx="6" fill="#6366f1"/>
+    <text x="125" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">OfficeComputerBuilder</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- computer : unique_ptr&lt;Computer&gt;</text>
+    <line x1="0" y1="68" x2="250" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="90" font-size="12" fill="#334155">+ buildCPU() [i5-13400]</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ buildGPU() [Intel UHD 730]</text>
+    <text x="10" y="130" font-size="12" fill="#334155">+ buildCooling() [Stock Air]</text>
+    <text x="10" y="150" font-size="12" fill="#334155">+ getResult() : unique_ptr&lt;Computer&gt;</text>
+  </g>
+
+  <!-- Connecting Lines -->
+  <!-- Director to Interface (Aggregation) -->
+  <line x1="290" y1="145" x2="370" y2="145" stroke="#1e293b" stroke-width="2" marker-start="url(#diamond)" />
+  <text x="325" y="138" font-size="11" fill="#475569" text-anchor="middle">aggregates</text>
+
+  <!-- Concrete Builders to Interface (Inheritance / Implementation) -->
+  <path d="M 325 360 L 325 315 L 500 315 L 500 280" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#inherits)"/>
+  <path d="M 665 360 L 665 315 L 500 315" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="500" y="330" font-size="11" fill="#475569" text-anchor="middle">&lt;&lt;implements&gt;&gt;</text>
+
+  <!-- Concrete Builders to Product (Dependency / Creates) -->
+  <path d="M 450 440 L 810 440 L 810 280" fill="none" stroke="#059669" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#arrow)"/>
+  <text x="815" y="370" font-size="11" fill="#059669">«creates»</text>
+</svg>
+</div>
+
+<h3>7. Class Responsibilities</h3>
+<ul>
+  <li><strong><code>Computer</code> (Product):</strong> The complex domain object storing hardware specifications and providing <code>displaySpecifications()</code>.</li>
+  <li><strong><code>ComputerBuilder</code> (Builder Interface):</strong> Declares pure virtual construction steps (<code>buildMotherboard()</code>, <code>buildCPU()</code>, <code>buildGPU()</code>, etc.) and <code>getResult()</code>.</li>
+  <li><strong><code>GamingComputerBuilder</code> (Concrete Builder 1):</strong> Assembles top-tier gaming components (Intel i9-14900K, RTX 4090 24GB, 64GB DDR5, 360mm AIO cooler).</li>
+  <li><strong><code>OfficeComputerBuilder</code> (Concrete Builder 2):</strong> Assembles cost-effective office components (Intel i5-13400, integrated UHD 730, stock air cooling).</li>
+  <li><strong><code>ComputerAssembler</code> (Director):</strong> Encapsulates standard assembly workflows (<code>constructFullPC()</code>, <code>constructMinimalPC()</code>).</li>
+  <li><strong><code>Client</code> (<code>main</code>):</strong> Configures the Director with the appropriate Builder, initiates assembly, and consumes the final product.</li>
+</ul>
+
+<h3>8. Code Implementation (C++17)</h3>
+<pre>/**
+ * CSE 3206 Software Engineering Sessional
+ * Lab 3: Design Pattern Analysis, Implementation and Code Review
+ * Group 2: Builder Pattern Implementation
+ *
+ * Real-world Scenario: Custom Desktop Computer Assembly System
+ */
+
+#include <iostream>
+#include <string>
+#include <memory>
+#include <iomanip>
+
+// ==========================================
+// 1. PRODUCT
+// The complex object under construction.
+// ==========================================
+class Computer {
+private:
+    std::string cpu;
+    std::string motherboard;
+    std::string ram;
+    std::string storage;
+    std::string gpu;
+    std::string powerSupply;
+    std::string cooling;
+    bool hasWifiCard = false;
+
+public:
+    // Setters used by the Builder
+    void setCPU(const std::string& val) { cpu = val; }
+    void setMotherboard(const std::string& val) { motherboard = val; }
+    void setRAM(const std::string& val) { ram = val; }
+    void setStorage(const std::string& val) { storage = val; }
+    void setGPU(const std::string& val) { gpu = val; }
+    void setPowerSupply(const std::string& val) { powerSupply = val; }
+    void setCooling(const std::string& val) { cooling = val; }
+    void setWifi(bool val) { hasWifiCard = val; }
+
+    void displaySpecifications() const {
+        std::cout << "--------------------------------------------------\n";
+        std::cout << "             COMPUTER SPECIFICATIONS              \n";
+        std::cout << "--------------------------------------------------\n";
+        std::cout << "  Motherboard : " << motherboard << "\n";
+        std::cout << "  Processor   : " << cpu << "\n";
+        std::cout << "  RAM         : " << ram << "\n";
+        std::cout << "  Storage     : " << storage << "\n";
+        std::cout << "  Graphics    : " << gpu << "\n";
+        std::cout << "  Power Supply: " << powerSupply << "\n";
+        std::cout << "  Cooling     : " << cooling << "\n";
+        std::cout << "  Wi-Fi Card  : " << (hasWifiCard ? "Installed" : "None") << "\n";
+        std::cout << "--------------------------------------------------\n\n";
+    }
+};
+
+// ==========================================
+// 2. BUILDER INTERFACE
+// Declares step-by-step construction methods.
+// ==========================================
+class ComputerBuilder {
+public:
+    virtual ~ComputerBuilder() = default;
+    virtual void reset() = 0;
+    virtual void buildMotherboard() = 0;
+    virtual void buildCPU() = 0;
+    virtual void buildRAM() = 0;
+    virtual void buildStorage() = 0;
+    virtual void buildGPU() = 0;
+    virtual void buildPowerSupply() = 0;
+    virtual void buildCooling() = 0;
+    virtual void buildNetwork() = 0;
+    virtual std::unique_ptr<Computer> getResult() = 0;
+};
+
+// ==========================================
+// 3. CONCRETE BUILDER 1: Gaming PC Builder
+// High-performance dedicated components.
+// ==========================================
+class GamingComputerBuilder : public ComputerBuilder {
+private:
+    std::unique_ptr<Computer> computer;
+
+public:
+    GamingComputerBuilder() { reset(); }
+
+    void reset() override {
+        computer = std::make_unique<Computer>();
+    }
+
+    void buildMotherboard() override {
+        computer->setMotherboard("ASUS ROG Maximus Z790 Hero");
+    }
+
+    void buildCPU() override {
+        computer->setCPU("Intel Core i9-14900K (24 cores, 6.0 GHz)");
+    }
+
+    void buildRAM() override {
+        computer->setRAM("64 GB (2 x 32GB) DDR5-6000 MHz RGB");
+    }
+
+    void buildStorage() override {
+        computer->setStorage("2 TB Samsung 990 PRO NVMe PCIe 4.0 SSD");
+    }
+
+    void buildGPU() override {
+        computer->setGPU("NVIDIA GeForce RTX 4090 24GB GDDR6X");
+    }
+
+    void buildPowerSupply() override {
+        computer->setPowerSupply("Corsair RM1000x 1000W 80+ Gold Fully Modular");
+    }
+
+    void buildCooling() override {
+        computer->setCooling("NZXT Kraken Elite 360 RGB Liquid Cooler");
+    }
+
+    void buildNetwork() override {
+        computer->setWifi(true);
+    }
+
+    std::unique_ptr<Computer> getResult() override {
+        std::unique_ptr<Computer> result = std::move(computer);
+        reset(); // Reset builder for next construction
+        return result;
+    }
+};
+
+// ==========================================
+// 4. CONCRETE BUILDER 2: Office PC Builder
+// Cost-effective, reliable business setup.
+// ==========================================
+class OfficeComputerBuilder : public ComputerBuilder {
+private:
+    std::unique_ptr<Computer> computer;
+
+public:
+    OfficeComputerBuilder() { reset(); }
+
+    void reset() override {
+        computer = std::make_unique<Computer>();
+    }
+
+    void buildMotherboard() override {
+        computer->setMotherboard("MSI PRO B760M-A WiFi DDR4");
+    }
+
+    void buildCPU() override {
+        computer->setCPU("Intel Core i5-13400 (10 cores, 4.6 GHz)");
+    }
+
+    void buildRAM() override {
+        computer->setRAM("16 GB (2 x 8GB) DDR4-3200 MHz");
+    }
+
+    void buildStorage() override {
+        computer->setStorage("512 GB Kingston NV2 PCIe 4.0 NVMe SSD");
+    }
+
+    void buildGPU() override {
+        computer->setGPU("Integrated Intel UHD Graphics 730");
+    }
+
+    void buildPowerSupply() override {
+        computer->setPowerSupply("Corsair CV550 550W 80+ Bronze");
+    }
+
+    void buildCooling() override {
+        computer->setCooling("Intel Stock Air Cooler");
+    }
+
+    void buildNetwork() override {
+        computer->setWifi(true);
+    }
+
+    std::unique_ptr<Computer> getResult() override {
+        std::unique_ptr<Computer> result = std::move(computer);
+        reset();
+        return result;
+    }
+};
+
+// ==========================================
+// 5. DIRECTOR
+// Defines the sequence of construction steps.
+// ==========================================
+class ComputerAssembler {
+private:
+    ComputerBuilder* builder;
+
+public:
+    void setBuilder(ComputerBuilder* b) {
+        builder = b;
+    }
+
+    // Construct a complete standard configuration
+    void constructFullPC() {
+        if (!builder) return;
+        builder->reset();
+        builder->buildMotherboard();
+        builder->buildCPU();
+        builder->buildRAM();
+        builder->buildStorage();
+        builder->buildGPU();
+        builder->buildPowerSupply();
+        builder->buildCooling();
+        builder->buildNetwork();
+    }
+
+    // Construct a minimal budget/headless server configuration
+    void constructMinimalPC() {
+        if (!builder) return;
+        builder->reset();
+        builder->buildMotherboard();
+        builder->buildCPU();
+        builder->buildRAM();
+        builder->buildStorage();
+        builder->buildPowerSupply();
+    }
+};
+
+// ==========================================
+// 6. CLIENT CODE (main)
+// Demonstrates how client interacts with Director & Builders.
+// ==========================================
+int main() {
+    std::cout << "========================================================\n";
+    std::cout << "       CSE 3206 LAB 3 - BUILDER PATTERN DEMO           \n";
+    std::cout << "========================================================\n\n";
+
+    ComputerAssembler assembler;
+
+    // 1. Building a High-End Gaming PC via Director
+    std::cout << "[Step 1] Assembling High-End Gaming PC via Director...\n";
+    GamingComputerBuilder gamingBuilder;
+    assembler.setBuilder(&gamingBuilder);
+    assembler.constructFullPC();
+    std::unique_ptr<Computer> gamingPC = gamingBuilder.getResult();
+    gamingPC->displaySpecifications();
+
+    // 2. Building a Standard Office PC via Director
+    std::cout << "[Step 2] Assembling Standard Office Workstation via Director...\n";
+    OfficeComputerBuilder officeBuilder;
+    assembler.setBuilder(&officeBuilder);
+    assembler.constructFullPC();
+    std::unique_ptr<Computer> officePC = officeBuilder.getResult();
+    officePC->displaySpecifications();
+
+    // 3. Custom assembly without Director (Client directly driving Builder)
+    std::cout << "[Step 3] Custom Customization: Assembling Custom Barebones Server...\n";
+    officeBuilder.reset();
+    officeBuilder.buildMotherboard();
+    officeBuilder.buildCPU();
+    officeBuilder.buildRAM();
+    officeBuilder.buildStorage();
+    officeBuilder.buildPowerSupply();
+    // Intentionally skipped GPU, RGB cooling, Wi-Fi card
+    std::unique_ptr<Computer> customServer = officeBuilder.getResult();
+    customServer->displaySpecifications();
+
+    std::cout << "Builder Pattern demonstration executed successfully.\n";
+    return 0;
+}
+</pre>
+
+<h3>9. Execution Flow</h3>
+<ol>
+  <li><strong>Instantiation:</strong> Client creates a Director (<code>ComputerAssembler</code>) and a Concrete Builder (<code>GamingComputerBuilder</code>).</li>
+  <li><strong>Configuration:</strong> Client assigns the builder to the director via <code>assembler.setBuilder(&amp;gamingBuilder)</code>.</li>
+  <li><strong>Step-by-Step Construction:</strong> Director executes <code>constructFullPC()</code>, which calls builder steps in exact logical sequence.</li>
+  <li><strong>Product Retrieval:</strong> Client calls <code>gamingBuilder.getResult()</code>, safely extracting the completed product and resetting the builder.</li>
+  <li><strong>Director-Free Custom Build:</strong> For custom variations (e.g. headless server), the Client drives builder steps directly without Director intervention.</li>
+</ol>
+
+<h3>10. Advantages</h3>
+<ul>
+  <li><strong>Fine-Grained Construction Control:</strong> Construction can be executed in distinct steps or deferred until prerequisites are ready.</li>
+  <li><strong>Single Responsibility Principle (SRP):</strong> Isolates complex assembly logic from the domain representation of the product.</li>
+  <li><strong>Open/Closed Principle (OCP):</strong> New configurations (e.g., <code>ServerBuilder</code>) can be added without altering existing code.</li>
+  <li><strong>Eliminates Telescoping Constructors:</strong> Clean, readable code without messy multi-parameter signatures.</li>
+</ul>
+
+<h3>11. Limitations</h3>
+<ul>
+  <li><strong>Increased Class Count:</strong> Requires defining builder interfaces, concrete builders, and directors, adding architectural overhead for simple objects.</li>
+  <li><strong>Coupling to Product Structure:</strong> Builders must be updated whenever fundamental product structure changes.</li>
+</ul>
+
+<h3>12. Real-Life Applications</h3>
+<ul>
+  <li>Custom PC &amp; Automobile configurators (Dell, Tesla).</li>
+  <li>Multi-format document generation engines (compiling into PDF, HTML, or DOCX).</li>
+  <li>SQL &amp; HTTP query builders (constructing SELECT, WHERE, JOIN clauses dynamically).</li>
+</ul>
+
+<h3>13. Industry Examples</h3>
+<ul>
+  <li><strong>Java Core:</strong> <code>java.lang.StringBuilder</code>, <code>java.nio.ByteBuffer</code>.</li>
+  <li><strong>Android Framework:</strong> <code>android.app.AlertDialog.Builder</code>.</li>
+  <li><strong>Spring Framework:</strong> <code>UriComponentsBuilder</code>, <code>MockMvcRequestBuilders</code>.</li>
+  <li><strong>Apache Commons:</strong> <code>RequestBuilder</code>.</li>
+</ul>
+
+<h3>14. Demonstration (Live Execution Output)</h3>
+<pre>========================================================
+       CSE 3206 LAB 3 - BUILDER PATTERN DEMO           
+========================================================
+
+[Step 1] Assembling High-End Gaming PC via Director...
+--------------------------------------------------
+             COMPUTER SPECIFICATIONS              
+--------------------------------------------------
+  Motherboard : ASUS ROG Maximus Z790 Hero
+  Processor   : Intel Core i9-14900K (24 cores, 6.0 GHz)
+  RAM         : 64 GB (2 x 32GB) DDR5-6000 MHz RGB
+  Storage     : 2 TB Samsung 990 PRO NVMe PCIe 4.0 SSD
+  Graphics    : NVIDIA GeForce RTX 4090 24GB GDDR6X
+  Power Supply: Corsair RM1000x 1000W 80+ Gold Fully Modular
+  Cooling     : NZXT Kraken Elite 360 RGB Liquid Cooler
+  Wi-Fi Card  : Installed
+--------------------------------------------------
+
+[Step 2] Assembling Standard Office Workstation via Director...
+--------------------------------------------------
+             COMPUTER SPECIFICATIONS              
+--------------------------------------------------
+  Motherboard : MSI PRO B760M-A WiFi DDR4
+  Processor   : Intel Core i5-13400 (10 cores, 4.6 GHz)
+  RAM         : 16 GB (2 x 8GB) DDR4-3200 MHz
+  Storage     : 512 GB Kingston NV2 PCIe 4.0 NVMe SSD
+  Graphics    : Integrated Intel UHD Graphics 730
+  Power Supply: Corsair CV550 550W 80+ Bronze
+  Cooling     : Intel Stock Air Cooler
+  Wi-Fi Card  : Installed
+--------------------------------------------------
+
+[Step 3] Custom Customization: Assembling Custom Barebones Server...
+--------------------------------------------------
+             COMPUTER SPECIFICATIONS              
+--------------------------------------------------
+  Motherboard : MSI PRO B760M-A WiFi DDR4
+  Processor   : Intel Core i5-13400 (10 cores, 4.6 GHz)
+  RAM         : 16 GB (2 x 8GB) DDR4-3200 MHz
+  Storage     : 512 GB Kingston NV2 PCIe 4.0 NVMe SSD
+  Graphics    : 
+  Power Supply: Corsair CV550 550W 80+ Bronze
+  Cooling     : 
+  Wi-Fi Card  : None
+--------------------------------------------------
+
+Builder Pattern demonstration executed successfully.
+</pre>
+
+<h3>15. Conclusion</h3>
+<p>The Builder Pattern is the gold standard for constructing complex aggregate objects with many optional properties. It guarantees encapsulation, prevents invalid intermediary states, and upholds SOLID object-oriented design principles.</p>
+
+<div class="page-break"></div>
+
+<h1>PART II: PROTOTYPE DESIGN PATTERN</h1>
+
+<h3>1. Pattern Name</h3>
+<p><strong>Prototype Pattern</strong></p>
+
+<h3>2. Category</h3>
+<p><strong>Creational Design Pattern</strong></p>
+
+<h3>3. Intent</h3>
+<p>The Prototype Pattern specifies the kinds of objects to create using a prototypical instance, creating new objects by copying this prototype via a virtual <code>clone()</code> method. It shields client code from concrete instantiation classes and eliminates expensive initialization costs.</p>
+
+<h3>4. Problem Statement</h3>
+<p>In real-time software systems such as <strong>Game Engines (RTS / RPG)</strong>, Graphics Editors, and Virtual Reality platforms, creating complex objects from scratch is computationally expensive. Spawning an enemy unit (<code>Swordsman</code>, <code>Archer</code>, <code>Mage</code>) requires reading 3D models and textures from storage, compiling audio waveforms, parsing skill trees from JSON/XML configs, and calculating attribute curves.</p>
+<p>Calling <code>new Swordsman(...)</code> dozens of times during real-time gameplay creates severe frame drops and stalls. Furthermore, hardcoding instantiation logic couples the spawner directly to concrete unit classes.</p>
+
+<h3>5. Motivation: Why Normal Implementation is Poor</h3>
+<ul>
+  <li><strong>Expensive Initialization Overhead:</strong> Re-executing file I/O, asset decompression, and attribute parsing for identical units is redundant and slow.</li>
+  <li><strong>Tight Coupling:</strong> Client spawner classes become tightly coupled to concrete unit classes, violating the <strong>Dependency Inversion Principle (DIP)</strong>.</li>
+  <li><strong>Polymorphic Object Copying:</strong> In C++, if a client holds only an abstract base pointer (<code>GameUnit*</code>), it cannot invoke <code>new Derived()</code> because the exact derived class is unknown at compile time. The Prototype pattern's virtual <code>clone()</code> provides seamless polymorphic copying.</li>
+</ul>
+
+<h3>6. Pattern Structure (UML Class Diagram)</h3>
+<div class="svg-container">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 560" width="100%" height="100%" style="background:#ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <marker id="inherits" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="1,1 13,7 1,13" fill="#ffffff" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="diamond" markerWidth="14" markerHeight="14" refX="1" refY="7" orient="auto">
+      <polygon points="7,1 13,7 7,13 1,7" fill="#1e293b" stroke="#1e293b" stroke-width="1.5" />
+    </marker>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <polygon points="0,0 10,5 0,10" fill="#475569" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="475" y="32" font-size="20" font-weight="bold" fill="#0f172a" text-anchor="middle">Prototype Design Pattern - Class Diagram</text>
+
+  <!-- Prototype Registry: UnitRegistry -->
+  <g transform="translate(40, 70)">
+    <rect width="280" height="150" rx="6" fill="#f8fafc" stroke="#d97706" stroke-width="2"/>
+    <rect width="280" height="35" rx="6" fill="#d97706"/>
+    <text x="140" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">UnitRegistry (Prototype Cache)</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- prototypes : unordered_map&lt;string, GameUnit*&gt;</text>
+    <line x1="0" y1="68" x2="280" y2="68" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="92" font-size="12" fill="#334155">+ registerPrototype(key, unit) : void</text>
+    <text x="10" y="118" font-size="12" fill="#334155">+ spawnUnit(key : string) : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="138" font-size="11" font-style="italic" fill="#64748b">  [calls prototype->clone()]</text>
+  </g>
+
+  <!-- Base Prototype Interface: GameUnit -->
+  <g transform="translate(480, 70)">
+    <rect width="290" height="160" rx="6" fill="#f8fafc" stroke="#0284c7" stroke-width="2"/>
+    <rect width="290" height="42" rx="6" fill="#0284c7"/>
+    <text x="145" y="18" font-size="11" font-style="italic" fill="#e0f2fe" text-anchor="middle">&lt;&lt;interface / abstract&gt;&gt;</text>
+    <text x="145" y="34" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">GameUnit (Prototype)</text>
+    <line x1="0" y1="42" x2="290" y2="42" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="65" font-size="12" font-weight="bold" fill="#0369a1">+ clone()* : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="88" font-size="12" fill="#334155">+ render(unitId : int)* : void</text>
+    <text x="10" y="110" font-size="12" fill="#334155">+ setPosition(x : int, y : int)* : void</text>
+    <text x="10" y="132" font-size="12" fill="#334155">+ setCustomName(name : string)* : void</text>
+  </g>
+
+  <!-- Concrete Prototype 1: Swordsman -->
+  <g transform="translate(30, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Swordsman</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, attackPower, armor : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- weapon : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Swordsman(const Swordsman&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Concrete Prototype 2: Archer -->
+  <g transform="translate(345, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Archer</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, attackRange, agility : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- bowType : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Archer(const Archer&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Concrete Prototype 3: Mage -->
+  <g transform="translate(660, 340)">
+    <rect width="260" height="180" rx="6" fill="#f8fafc" stroke="#4f46e5" stroke-width="2"/>
+    <rect width="260" height="35" rx="6" fill="#4f46e5"/>
+    <text x="130" y="23" font-size="14" font-weight="bold" fill="#ffffff" text-anchor="middle">Mage</text>
+    <text x="10" y="55" font-size="12" fill="#334155">- health, mana : int</text>
+    <text x="10" y="73" font-size="12" fill="#334155">- spellElement, staffType : string</text>
+    <line x1="0" y1="84" x2="260" y2="84" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="10" y="105" font-size="12" font-weight="bold" fill="#4338ca">+ clone() : unique_ptr&lt;GameUnit&gt;</text>
+    <text x="10" y="125" font-size="12" fill="#334155">+ Mage(const Mage&amp;)</text>
+    <text x="10" y="145" font-size="12" fill="#334155">+ render(unitId : int) : void</text>
+    <text x="10" y="165" font-size="12" fill="#334155">+ setPosition(x, y), setCustomName()</text>
+  </g>
+
+  <!-- Connecting Lines -->
+  <!-- Registry aggregates Prototype -->
+  <line x1="320" y1="145" x2="480" y2="145" stroke="#1e293b" stroke-width="2" marker-start="url(#diamond)" />
+  <text x="400" y="138" font-size="11" fill="#475569" text-anchor="middle">caches &amp; clones</text>
+
+  <!-- Concrete Prototypes to Base Interface (Inheritance / Implementation) -->
+  <path d="M 160 340 L 160 290 L 625 290 L 625 230" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#inherits)"/>
+  <path d="M 475 340 L 475 290" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <path d="M 790 340 L 790 290 L 625 290" fill="none" stroke="#1e293b" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="625" y="305" font-size="11" fill="#475569" text-anchor="middle">&lt;&lt;implements&gt;&gt;</text>
+</svg>
+</div>
+
+<h3>7. Class Responsibilities</h3>
+<ul>
+  <li><strong><code>GameUnit</code> (Prototype Interface):</strong> Declares pure virtual <code>clone()</code> method and unit operations (<code>render()</code>, <code>setPosition()</code>, <code>setCustomName()</code>).</li>
+  <li><strong><code>Swordsman</code> (Concrete Prototype 1):</strong> Stores heavy melee combat data and implements <code>clone()</code> via copy constructor.</li>
+  <li><strong><code>Archer</code> (Concrete Prototype 2):</strong> Stores ranged combat data and implements <code>clone()</code>.</li>
+  <li><strong><code>Mage</code> (Concrete Prototype 3):</strong> Stores magic spell arrays and implements <code>clone()</code>.</li>
+  <li><strong><code>UnitRegistry</code> (Prototype Cache / Spawner):</strong> Maintains a hash map of master pre-initialized prototypes and handles clone requests by key.</li>
+  <li><strong><code>Client</code> (<code>main</code>):</strong> Registers master prototypes, spawns clones dynamically on the battlefield, adjusts runtime properties, and deploys units.</li>
+</ul>
+
+<h3>8. Code Implementation (C++17)</h3>
+<pre>/**
+ * CSE 3206 Software Engineering Sessional
+ * Lab 3: Design Pattern Analysis, Implementation and Code Review
+ * Group 2: Prototype Pattern Implementation
+ *
+ * Real-world Scenario: Game Character / Unit Spawning Engine (RTS/RPG)
+ */
+
+#include <iostream>
+#include <string>
+#include <memory>
+#include <unordered_map>
+#include <vector>
+
+// ==========================================
+// 1. PROTOTYPE INTERFACE
+// Declares the clone() method.
+// ==========================================
+class GameUnit {
+public:
+    virtual ~GameUnit() = default;
+    
+    // Core Prototype clone interface (pure virtual)
+    virtual std::unique_ptr<GameUnit> clone() const = 0;
+    
+    // Presentation / gameplay method
+    virtual void render(int unitId) const = 0;
+    
+    // Dynamic runtime customization
+    virtual void setPosition(int x, int y) = 0;
+    virtual void setCustomName(const std::string& name) = 0;
+};
+
+// ==========================================
+// 2. CONCRETE PROTOTYPE 1: Swordsman / Warrior
+// ==========================================
+class Swordsman : public GameUnit {
+private:
+    std::string unitType;
+    std::string customName;
+    int health;
+    int attackPower;
+    int armor;
+    std::string weapon;
+    int posX = 0;
+    int posY = 0;
+
+public:
+    Swordsman(const std::string& name, int hp, int atk, int def, const std::string& wpn)
+        : unitType("Swordsman"), customName(name), health(hp), attackPower(atk), armor(def), weapon(wpn) {
+        // Simulating expensive initialization (asset loading, audio preload, skill tree compilation)
+    }
+
+    // Copy constructor used for cloning
+    Swordsman(const Swordsman& other)
+        : unitType(other.unitType),
+          customName(other.customName),
+          health(other.health),
+          attackPower(other.attackPower),
+          armor(other.armor),
+          weapon(other.weapon),
+          posX(other.posX),
+          posY(other.posY) {}
+
+    // Implement clone() using copy constructor
+    std::unique_ptr<GameUnit> clone() const override {
+        return std::make_unique<Swordsman>(*this);
+    }
+
+    void setPosition(int x, int y) override {
+        posX = x;
+        posY = y;
+    }
+
+    void setCustomName(const std::string& name) override {
+        customName = name;
+    }
+
+    void render(int unitId) const override {
+        std::cout << "  [Unit #" << unitId << " - " << unitType << "] \"" << customName << "\"\n"
+                  << "    Stats : HP=" << health << " | ATK=" << attackPower << " | ARMOR=" << armor << "\n"
+                  << "    Weapon: " << weapon << "\n"
+                  << "    Coord : (" << posX << ", " << posY << ")\n\n";
+    }
+};
+
+// ==========================================
+// 3. CONCRETE PROTOTYPE 2: Archer
+// ==========================================
+class Archer : public GameUnit {
+private:
+    std::string unitType;
+    std::string customName;
+    int health;
+    int attackRange;
+    int agility;
+    std::string bowType;
+    int posX = 0;
+    int posY = 0;
+
+public:
+    Archer(const std::string& name, int hp, int range, int agi, const std::string& bow)
+        : unitType("Archer"), customName(name), health(hp), attackRange(range), agility(agi), bowType(bow) {}
+
+    Archer(const Archer& other)
+        : unitType(other.unitType),
+          customName(other.customName),
+          health(other.health),
+          attackRange(other.attackRange),
+          agility(other.agility),
+          bowType(other.bowType),
+          posX(other.posX),
+          posY(other.posY) {}
+
+    std::unique_ptr<GameUnit> clone() const override {
+        return std::make_unique<Archer>(*this);
+    }
+
+    void setPosition(int x, int y) override {
+        posX = x;
+        posY = y;
+    }
+
+    void setCustomName(const std::string& name) override {
+        customName = name;
+    }
+
+    void render(int unitId) const override {
+        std::cout << "  [Unit #" << unitId << " - " << unitType << "] \"" << customName << "\"\n"
+                  << "    Stats : HP=" << health << " | RANGE=" << attackRange << " | AGILITY=" << agility << "\n"
+                  << "    Weapon: " << bowType << "\n"
+                  << "    Coord : (" << posX << ", " << posY << ")\n\n";
+    }
+};
+
+// ==========================================
+// 4. CONCRETE PROTOTYPE 3: Mage / Sorcerer
+// ==========================================
+class Mage : public GameUnit {
+private:
+    std::string unitType;
+    std::string customName;
+    int health;
+    int mana;
+    std::string spellElement;
+    std::string staffType;
+    int posX = 0;
+    int posY = 0;
+
+public:
+    Mage(const std::string& name, int hp, int mp, const std::string& element, const std::string& staff)
+        : unitType("Mage"), customName(name), health(hp), mana(mp), spellElement(element), staffType(staff) {}
+
+    Mage(const Mage& other)
+        : unitType(other.unitType),
+          customName(other.customName),
+          health(other.health),
+          mana(other.mana),
+          spellElement(other.spellElement),
+          staffType(other.staffType),
+          posX(other.posX),
+          posY(other.posY) {}
+
+    std::unique_ptr<GameUnit> clone() const override {
+        return std::make_unique<Mage>(*this);
+    }
+
+    void setPosition(int x, int y) override {
+        posX = x;
+        posY = y;
+    }
+
+    void setCustomName(const std::string& name) override {
+        customName = name;
+    }
+
+    void render(int unitId) const override {
+        std::cout << "  [Unit #" << unitId << " - " << unitType << "] \"" << customName << "\"\n"
+                  << "    Stats : HP=" << health << " | MANA=" << mana << " | ELEMENT=" << spellElement << "\n"
+                  << "    Weapon: " << staffType << "\n"
+                  << "    Coord : (" << posX << ", " << posY << ")\n\n";
+    }
+};
+
+// ==========================================
+// 5. PROTOTYPE REGISTRY / SPAWN MANAGER
+// Caches master prototypes and clones them on demand.
+// ==========================================
+class UnitRegistry {
+private:
+    std::unordered_map<std::string, std::unique_ptr<GameUnit>> prototypes;
+
+public:
+    void registerPrototype(const std::string& key, std::unique_ptr<GameUnit> prototype) {
+        prototypes[key] = std::move(prototype);
+    }
+
+    // Creates a new unit instance by cloning the registered prototype
+    std::unique_ptr<GameUnit> spawnUnit(const std::string& key) const {
+        auto it = prototypes.find(key);
+        if (it != prototypes.end()) {
+            return it->second->clone(); // Returns deep cloned copy
+        }
+        std::cerr << "Error: Prototype with key '" << key << "' not registered!\n";
+        return nullptr;
+    }
+};
+
+// ==========================================
+// 6. CLIENT CODE (main)
+// Demonstrates fast spawning via cloning.
+// ==========================================
+int main() {
+    std::cout << "========================================================\n";
+    std::cout << "      CSE 3206 LAB 3 - PROTOTYPE PATTERN DEMO          \n";
+    std::cout << "========================================================\n\n";
+
+    // 1. Initializing and Registering Master Prototypes in Registry
+    std::cout << "[Step 1] Loading and caching master unit prototypes...\n";
+    UnitRegistry registry;
+
+    registry.registerPrototype(
+        "elite_swordsman",
+        std::make_unique<Swordsman>("Royal Guard", 150, 45, 30, "Excalibur Greatsword")
+    );
+
+    registry.registerPrototype(
+        "sniper_archer",
+        std::make_unique<Archer>("Elven Marksman", 90, 80, 70, "Windrunner Longbow")
+    );
+
+    registry.registerPrototype(
+        "pyro_mage",
+        std::make_unique<Mage>("Archmage", 80, 200, "Firestorm", "Phoenix Staff")
+    );
+
+    std::cout << "Master prototypes successfully registered in memory.\n\n";
+
+    // 2. Spawning Army Squad via Fast Cloning
+    std::cout << "[Step 2] Spawning units on battlefield via Prototype cloning:\n";
+    std::cout << "--------------------------------------------------------\n";
+
+    std::vector<std::unique_ptr<GameUnit>> battlefieldArmy;
+
+    // Clone 2 Swordsmen
+    auto s1 = registry.spawnUnit("elite_swordsman");
+    s1->setPosition(10, 20);
+    s1->setCustomName("Vanguard Arthur");
+    battlefieldArmy.push_back(std::move(s1));
+
+    auto s2 = registry.spawnUnit("elite_swordsman");
+    s2->setPosition(12, 22);
+    s2->setCustomName("Vanguard Lancelot");
+    battlefieldArmy.push_back(std::move(s2));
+
+    // Clone 2 Archers
+    auto a1 = registry.spawnUnit("sniper_archer");
+    a1->setPosition(5, 50);
+    a1->setCustomName("Scout Robin");
+    battlefieldArmy.push_back(std::move(a1));
+
+    auto a2 = registry.spawnUnit("sniper_archer");
+    a2->setPosition(8, 52);
+    a2->setCustomName("Scout Legolas");
+    battlefieldArmy.push_back(std::move(a2));
+
+    // Clone 1 Mage
+    auto m1 = registry.spawnUnit("pyro_mage");
+    m1->setPosition(2, 15);
+    m1->setCustomName("Grand Wizard Gandalf");
+    battlefieldArmy.push_back(std::move(m1));
+
+    // 3. Render all deployed units
+    int unitId = 1;
+    for (const auto& unit : battlefieldArmy) {
+        unit->render(unitId++);
+    }
+
+    std::cout << "--------------------------------------------------------\n";
+    std::cout << "Prototype Pattern demonstration executed successfully.\n";
+    std::cout << "Notice: All 5 units were instantiated via zero-overhead\n";
+    std::cout << "cloning without repeating expensive initialization logic!\n";
+
+    return 0;
+}
+</pre>
+
+<h3>9. Execution Flow</h3>
+<ol>
+  <li><strong>Prototype Pre-caching:</strong> During system boot, master unit templates are created once and stored in the <code>UnitRegistry</code>.</li>
+  <li><strong>Clone Request:</strong> At runtime, the client requests a unit: <code>registry.spawnUnit("elite_swordsman")</code>.</li>
+  <li><strong>Virtual Clone Execution:</strong> The registry finds the master instance and calls <code>clone()</code>, invoking the derived copy constructor.</li>
+  <li><strong>Dynamic Mutation:</strong> The client configures instance-specific fields (e.g., coordinates, unit nicknames) without mutating the master prototype.</li>
+  <li><strong>Deployment:</strong> The freshly cloned unit is added to the active unit list with zero initialization delay.</li>
+</ol>
+
+<h3>10. Advantages</h3>
+<ul>
+  <li><strong>Blazing Fast Object Creation:</strong> Bypasses expensive asset loading, constructor calculations, and disk/network I/O.</li>
+  <li><strong>Polymorphic Cloning:</strong> Duplicates objects through base pointers without coupling to concrete classes.</li>
+  <li><strong>Runtime Dynamic Configuration:</strong> Prototypes can be registered, replaced, or removed dynamically without recompiling.</li>
+  <li><strong>Reduces Subclass Explosion:</strong> Pre-configured presets can replace deep subclassing hierarchies.</li>
+</ul>
+
+<h3>11. Limitations</h3>
+<ul>
+  <li><strong>Deep vs. Shallow Copy Nuances:</strong> Cloning objects containing circular references or dynamic raw pointers requires meticulous deep-copy handling to prevent double-free or memory corruption.</li>
+</ul>
+
+<h3>12. Real-Life Applications</h3>
+<ul>
+  <li>Real-Time Strategy / RPG Game enemy and projectile spawning.</li>
+  <li>Graphic vector applications (copy-pasting complex vector shapes in Illustrator / Figma).</li>
+  <li>Virtual Machine and container provisioning (spawning containers from master image snapshots).</li>
+</ul>
+
+<h3>13. Industry Examples</h3>
+<ul>
+  <li><strong>Java:</strong> <code>java.lang.Cloneable</code> interface and <code>Object.clone()</code> method.</li>
+  <li><strong>JavaScript:</strong> Fundamental prototype-based object inheritance model.</li>
+  <li><strong>Unity Game Engine:</strong> <code>Instantiate(prefab)</code> cloning system.</li>
+  <li><strong>Unreal Engine:</strong> Class Default Object (CDO) instantiation.</li>
+</ul>
+
+<h3>14. Demonstration (Live Execution Output)</h3>
+<pre>========================================================
+      CSE 3206 LAB 3 - PROTOTYPE PATTERN DEMO          
+========================================================
+
+[Step 1] Loading and caching master unit prototypes...
+Master prototypes successfully registered in memory.
+
+[Step 2] Spawning units on battlefield via Prototype cloning:
+--------------------------------------------------------
+  [Unit #1 - Swordsman] "Vanguard Arthur"
+    Stats : HP=150 | ATK=45 | ARMOR=30
+    Weapon: Excalibur Greatsword
+    Coord : (10, 20)
+
+  [Unit #2 - Swordsman] "Vanguard Lancelot"
+    Stats : HP=150 | ATK=45 | ARMOR=30
+    Weapon: Excalibur Greatsword
+    Coord : (12, 22)
+
+  [Unit #3 - Archer] "Scout Robin"
+    Stats : HP=90 | RANGE=80 | AGILITY=70
+    Weapon: Windrunner Longbow
+    Coord : (5, 50)
+
+  [Unit #4 - Archer] "Scout Legolas"
+    Stats : HP=90 | RANGE=80 | AGILITY=70
+    Weapon: Windrunner Longbow
+    Coord : (8, 52)
+
+  [Unit #5 - Mage] "Grand Wizard Gandalf"
+    Stats : HP=80 | MANA=200 | ELEMENT=Firestorm
+    Weapon: Phoenix Staff
+    Coord : (2, 15)
+
+--------------------------------------------------------
+Prototype Pattern demonstration executed successfully.
+Notice: All 5 units were instantiated via zero-overhead
+cloning without repeating expensive initialization logic!
+</pre>
+
+<h3>15. Conclusion</h3>
+<p>The Prototype Pattern provides an optimal mechanism for high-frequency object generation where instantiation cost is significant. Combined with a centralized Prototype Registry, it maximizes runtime efficiency while maintaining clean object-oriented decoupling.</p>
+
+<div class="page-break"></div>
+
+<h1>SUMMARY COMPARISON OF CREATIONAL DESIGN PATTERNS</h1>
+
+<table class="comp-table">
+  <thead>
+    <tr>
+      <th>Feature / Criteria</th>
+      <th>Builder Pattern</th>
+      <th>Prototype Pattern</th>
+      <th>Factory Method</th>
+      <th>Abstract Factory</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Primary Intent</strong></td>
+      <td>Step-by-step construction of complex multi-part objects</td>
+      <td>Cloning pre-configured objects via <code>clone()</code></td>
+      <td>Subclasses decide which class to instantiate</td>
+      <td>Creates families of related or dependent objects</td>
+    </tr>
+    <tr>
+      <td><strong>Object Complexity</strong></td>
+      <td>High (many configurable parts &amp; options)</td>
+      <td>Heavy initialization cost, identical initial state</td>
+      <td>Single product hierarchy</td>
+      <td>Multiple product families / suites</td>
+    </tr>
+    <tr>
+      <td><strong>Construction Mechanism</strong></td>
+      <td>Step-by-step calls via Director or Fluent Builder API</td>
+      <td>Copy constructor / virtual <code>clone()</code> method</td>
+      <td>Inheritance and polymorphic method override</td>
+      <td>Object composition via abstract factory interface</td>
+    </tr>
+    <tr>
+      <td><strong>Key Advantage</strong></td>
+      <td>Eliminates telescoping constructors</td>
+      <td>Zero expensive re-initialization overhead</td>
+      <td>Decouples creator from concrete product class</td>
+      <td>Enforces compatibility among product families</td>
+    </tr>
+    <tr>
+      <td><strong>When to Use</strong></td>
+      <td>Object has many optional parameters &amp; representations</td>
+      <td>Instantiating from scratch is costly or slow</td>
+      <td>Object creation logic varies across subclasses</td>
+      <td>System requires multi-platform component suites</td>
+    </tr>
+  </tbody>
+</table>
+
+<br>
+<hr>
+<p style="text-align: center; font-size: 10pt; color: #64748b;">
+Department of Computer Science &amp; Engineering, RUET &bull; CSE 3206 Software Engineering Sessional &bull; Group 2 Deliverable
+</p>
+
+</body>
+</html>

@@ -1,10 +1,45 @@
-# Rajshahi University of Engineering & Technology (RUET)
+<div align="center">
+
+*Heaven's Light is Our Guide*
+
+# Rajshahi University of Engineering and Technology
 ### Department of Computer Science & Engineering
-**Course Title:** CSE 3206: Software Engineering Sessional  
-**Lab Assignment 3:** Design Pattern Analysis, Implementation and Code Review  
-**Assigned Group:** Group 2  
-**Assigned Patterns:** Builder Pattern & Prototype Pattern  
-**Total Marks:** 08  
+
+<img src="ruet-logo-png.png" alt="RUET Logo" width="160"/>
+
+# LAB REPORT
+### **(Lab 3: Design Pattern Analysis, Implementation and Code Review)**
+
+</div>
+
+---
+
+### Course & Experiment Information
+
+| Field | Details |
+| :--- | :--- |
+| **Course Title** | Software Engineering Sessional |
+| **Course Code** | CSE 3206 |
+| **Name of the Experiment** | Lab 3: Design Pattern Analysis, Implementation and Code Review |
+| **Assigned Group** | Group 2 (Builder Pattern & Prototype Pattern) |
+| **Date of Submission** | 28.09.2026 |
+
+---
+
+### Submission Details
+
+| Submitted By | Submitted To |
+| :--- | :--- |
+| **Group :** Group 2<br>**Section :** C &nbsp;&nbsp;&nbsp;&nbsp; **Series :** 2022<br><br>**Team Members:**<br>1. **2203124** — Ishtiak Ahmed Anan<br>2. **2203125** — Sayed Shafaque bin Nur<br>3. **2203126** — Labib Shahriar Mahi | **Farjana Parvin**<br>Assistant Professor<br>Department of Computer Science & Engineering<br>Rajshahi University of Engineering and Technology (RUET) |
+
+---
+
+### Remarks
+| Remarks |
+| :--- |
+| *Instructor's feedback / grade verification*<br><br><br> |
+
+<div style="page-break-after: always;"></div>
 
 ---
 
@@ -17,10 +52,10 @@
 **Creational Design Pattern**
 
 ### 3. Intent
-The Builder Pattern separates the construction of a complex object from its representation, allowing the exact same construction process to produce diverse types and representations of an object. It encapsulates the assembly logic step-by-step rather than requiring clients to pass an overwhelming number of arguments to a constructor.
+The Builder Pattern separates the construction of a complex object from its representation, allowing the exact same construction process to produce diverse types and configurations of an object. It encapsulates the assembly logic step-by-step rather than requiring clients to pass an overwhelming number of arguments to a constructor.
 
 ### 4. Problem Statement
-In software development, objects often grow complex, containing dozens of configurable properties—some mandatory and many optional. For example, in a Custom Desktop Computer Assembly System, a computer can have various hardware components: Motherboard, CPU, RAM, NVMe/SATA Storage, dedicated GPU, Power Supply Unit (PSU), Liquid/Air Cooling, and Wi-Fi cards.
+In software development, objects often grow complex, containing dozens of configurable properties—some mandatory and many optional. In our real-world scenario of a **Custom Desktop Computer Assembly System**, an assembled PC contains: Motherboard, Processor, RAM, Storage (NVMe/SATA), dedicated GPU, Power Supply Unit (PSU), Liquid/Air Cooling, and Wi-Fi modules.
 
 A traditional approach using constructors presents significant issues:
 1. **Telescoping Constructor Anti-Pattern:** Creating multiple overloaded constructors with 5, 6, 7, or 8+ parameters becomes unmaintainable and highly prone to error.
@@ -30,11 +65,11 @@ A traditional approach using constructors presents significant issues:
 ### 5. Motivation: Why Normal Implementation is Poor
 Consider the traditional constructor implementation:
 ```cpp
-Computer pc = new Computer("ASUS Z790", "Intel i9", "64GB DDR5", "2TB NVMe", "RTX 4090", "1000W", "AIO Cooler", true);
+Computer pc("ASUS Z790", "Intel i9", "64GB DDR5", "2TB NVMe", "RTX 4090", "1000W", "AIO Cooler", true);
 ```
 If a customer wants a basic office PC without a dedicated GPU or liquid cooling:
 ```cpp
-Computer officePC = new Computer("MSI B760", "Intel i5", "16GB", "512GB", "", "550W", "Stock Fan", false);
+Computer officePC("MSI B760", "Intel i5", "16GB", "512GB", "", "550W", "Stock Fan", false);
 ```
 - The caller is forced to pass dummy empty strings or null pointers for components not needed.
 - If new components are introduced (e.g., Sound Card, Bluetooth), every existing constructor signature breaks, directly violating the **Open/Closed Principle (OCP)**.
@@ -584,7 +619,7 @@ classDiagram
 ### 7. Class Responsibilities
 1. **`GameUnit` (Prototype Interface):** Declares the virtual destructor and pure virtual `clone()` method, alongside gameplay operations (`render()`, `setPosition()`, `setCustomName()`).
 2. **`Swordsman` (Concrete Prototype 1):** Stores heavy combat attributes and implements `clone()` using its C++ copy constructor to return an exact replica.
-3. **`Archer` (Concrete Prototype 2):** Stores ranged attack attributes and provides its own `clone()` implementation.
+3. **`Archer` (Concrete Prototype 2):** Stores ranged combat data and provides its own `clone()` implementation.
 4. **`Mage` (Concrete Prototype 3):** Stores mana and elemental spell configurations with dedicated `clone()` behavior.
 5. **`UnitRegistry` (Prototype Registry / Cache):** Manages a dictionary of pre-initialized prototypical instances. Provides a factory method `spawnUnit(key)` that clones the requested prototype on demand.
 6. **`Client` (`main`):** Registers master prototypes into the registry, spawns clones dynamically on the battlefield, modifies runtime coordinates, and renders the army.

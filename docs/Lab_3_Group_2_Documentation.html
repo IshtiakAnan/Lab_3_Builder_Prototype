@@ -6,50 +6,148 @@
 <style>
   @page {
     size: A4;
-    margin: 20mm 15mm 20mm 15mm;
+    margin: 15mm 15mm 15mm 15mm;
   }
   body {
-    font-family: 'Liberation Serif', 'Times New Roman', serif;
+    font-family: 'Times New Roman', Times, serif;
     font-size: 11pt;
     line-height: 1.45;
-    color: #111;
+    color: #000;
     margin: 0;
-    padding: 10px;
+    padding: 0;
   }
-  .header-box {
+
+  /* CWMS COVER PAGE STYLES */
+  .cover-page-cwms {
+    page-break-after: always;
+    box-sizing: border-box;
+    width: 100%;
     text-align: center;
-    border-bottom: 2px solid #1e3a8a;
-    padding-bottom: 12px;
-    margin-bottom: 20px;
-  }
-  .university-title {
-    font-size: 16pt;
-    font-weight: bold;
-    color: #1e3a8a;
+    padding: 0;
     margin: 0;
-    text-transform: uppercase;
+  }
+  .motto {
+    font-size: 12pt;
+    color: #111;
+    margin-bottom: 2px;
+  }
+  .univ-title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #000;
+    margin: 2px 0;
+    line-height: 1.2;
   }
   .dept-title {
-    font-size: 12pt;
-    font-weight: 600;
-    color: #334155;
-    margin: 4px 0;
+    font-size: 13pt;
+    font-weight: bold;
+    color: #111;
+    margin: 2px 0 6px 0;
   }
-  .meta-table {
+  .logo-box {
+    margin: 6px auto;
+    text-align: center;
+  }
+  .logo-box img {
+    width: 44mm;
+    height: auto;
+    max-height: 50mm;
+  }
+  .lab-report-title {
+    font-size: 20pt;
+    font-weight: bold;
+    color: #000;
+    margin: 8px 0 10px 0;
+    letter-spacing: 1px;
+  }
+
+  /* TABLE 1: COURSE INFO */
+  .course-info-table {
     width: 100%;
-    margin: 15px auto;
+    margin: 0 auto 10px auto;
     border-collapse: collapse;
+  }
+  .course-info-table td {
+    padding: 3px 6px;
+    font-size: 11pt;
+    text-align: left;
+  }
+  .course-info-table td.col-label {
+    width: 25%;
+    font-weight: bold;
+  }
+  .course-info-table td.col-val {
+    width: 75%;
+  }
+
+  /* TABLE 2: SUBMISSION INFO */
+  .sub-table-cwms {
+    width: 100%;
+    margin: 6px auto 10px auto;
+    border-collapse: collapse;
+    border: 1px solid #808080;
+  }
+  .sub-table-cwms td {
+    border: 1px solid #808080;
+    padding: 8px 10px;
+    vertical-align: top;
+    text-align: left;
     font-size: 10.5pt;
   }
-  .meta-table td {
-    padding: 4px 8px;
-    border: 1px solid #cbd5e1;
+  .sub-by-col {
+    width: 55%;
   }
-  .meta-table td.label {
+  .sub-to-col {
+    width: 45%;
+    line-height: 1.5;
+  }
+  .sub-title {
+    font-weight: bold;
+    font-size: 11pt;
+    margin-bottom: 4px;
+    text-decoration: underline;
+  }
+  .team-meta {
+    font-size: 10.5pt;
+    margin-bottom: 3px;
+  }
+  .members-mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+  }
+  .members-mini-table th, .members-mini-table td {
+    border: 1px solid #cbd5e1;
+    padding: 3px 6px;
+    font-size: 10pt;
+    text-align: left;
+  }
+  .members-mini-table th {
     background-color: #f1f5f9;
     font-weight: bold;
-    width: 25%;
   }
+
+  /* TABLE 3: REMARKS */
+  .remarks-table {
+    width: 100%;
+    margin: 6px auto 0 auto;
+    border-collapse: collapse;
+    border: 1px solid #000;
+  }
+  .remarks-table td {
+    border: 1px solid #000;
+    padding: 6px 10px;
+    text-align: left;
+  }
+  .remarks-title {
+    font-weight: bold;
+    font-size: 11pt;
+  }
+  .remarks-space {
+    height: 40px;
+  }
+
+/* BODY CONTENT STYLES */
   h1 {
     font-size: 15pt;
     color: #1e3a8a;
@@ -117,31 +215,86 @@
 </style>
 </head>
 <body>
-
-<div class="header-box">
-  <div class="university-title">Rajshahi University of Engineering &amp; Technology</div>
+<!-- RUET CSE LAB REPORT COVER PAGE (CWMS FORMAT) -->
+<div class="cover-page-cwms">
+  <div class="motto">Heaven's Light is Our Guide</div>
+  <div class="univ-title">Rajshahi University of Engineering and Technology</div>
   <div class="dept-title">Department of Computer Science &amp; Engineering</div>
-  <p style="margin: 4px 0; font-size: 10pt; font-style: italic;">Heaven’s light is our guide</p>
-  <h2 style="margin: 8px 0 2px 0; color: #1e3a8a;">CSE 3206: Software Engineering Sessional</h2>
-  <h3 style="margin: 0; color: #475569;">Lab 3: Design Pattern Analysis, Implementation and Code Review</h3>
+
+  <div class="logo-box">
+    <img src="ruet-logo-png.png" alt="RUET Logo">
+  </div>
+
+  <div class="lab-report-title">LAB REPORT</div>
+
+  <!-- TABLE 1: COURSE & EXPERIMENT INFO -->
+  <table class="course-info-table">
+    <tr>
+      <td class="col-label">Course Title</td>
+      <td class="col-val">: Software Engineering Sessional</td>
+    </tr>
+    <tr>
+      <td class="col-label">Course Code</td>
+      <td class="col-val">: CSE 3206</td>
+    </tr>
+    <tr>
+      <td class="col-label">Name of the Experiment</td>
+      <td class="col-val">: Lab 3: Design Pattern Analysis, Implementation and Code Review</td>
+    </tr>
+    <tr>
+      <td class="col-label">Date of Submission</td>
+      <td class="col-val">: 28.09.2026</td>
+    </tr>
+  </table>
+
+  <!-- TABLE 2: SUBMITTED BY & SUBMITTED TO -->
+  <table class="sub-table-cwms">
+    <tr>
+      <td class="sub-by-col">
+        <div class="sub-title">Submitted By:</div>
+        <div class="team-meta"><strong>Group :</strong> Group 2</div>
+        <div class="team-meta"><strong>Section :</strong> C &nbsp;&nbsp;&nbsp;&nbsp; <strong>Series :</strong> 2022</div>
+        <table class="members-mini-table">
+          <tr>
+            <th style="width: 35%;">Roll</th>
+            <th style="width: 65%;">Name</th>
+          </tr>
+          <tr>
+            <td><strong>2203124</strong></td>
+            <td>Ishtiak Ahmed Anan</td>
+          </tr>
+          <tr>
+            <td><strong>2203125</strong></td>
+            <td>Sayed Shafaque bin Nur</td>
+          </tr>
+          <tr>
+            <td><strong>2203126</strong></td>
+            <td>Labib Shahriar Mahi</td>
+          </tr>
+        </table>
+      </td>
+      <td class="sub-to-col">
+        <div class="sub-title">Submitted To:</div>
+        <div style="font-weight: bold; margin-bottom: 2px; font-size: 11pt;">Farjana Parvin</div>
+        <div style="font-weight: bold; margin-bottom: 4px; font-size: 10.5pt; color: #222;">Assistant Professor</div>
+        <div>Department of Computer Science &amp; Engineering</div>
+        <div>Rajshahi University of Engineering and Technology (RUET)</div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- TABLE 3: REMARKS -->
+  <table class="remarks-table">
+    <tr>
+      <td>
+        <div class="remarks-title">Remarks:</div>
+        <div class="remarks-space"></div>
+      </td>
+    </tr>
+  </table>
 </div>
 
-<table class="meta-table">
-  <tr>
-    <td class="label">Assigned Presentation Group:</td>
-    <td>Group 2</td>
-    <td class="label">Lab Total Marks:</td>
-    <td>08 Marks</td>
-  </tr>
-  <tr>
-    <td class="label">Assigned Design Patterns:</td>
-    <td colspan="3"><strong>1. Builder Pattern &nbsp;&nbsp;|&nbsp;&nbsp; 2. Prototype Pattern</strong> (Both Creational Patterns)</td>
-  </tr>
-  <tr>
-    <td class="label">Deliverables Covered:</td>
-    <td colspan="3">1. Technical Documentation &nbsp;|&nbsp; 2. Source Code &nbsp;|&nbsp; 3. UML Diagrams &nbsp;|&nbsp; 4. Execution Output &nbsp;|&nbsp; 5. Peer Review Rubric</td>
-  </tr>
-</table>
+<div class="page-break"></div>
 
 <h1>PART I: BUILDER DESIGN PATTERN</h1>
 
@@ -642,6 +795,7 @@ Builder Pattern demonstration executed successfully.
 
 <div class="page-break"></div>
 
+<!-- PAGE 3+: PART II PROTOTYPE PATTERN -->
 <h1>PART II: PROTOTYPE DESIGN PATTERN</h1>
 
 <h3>1. Pattern Name</h3>
@@ -1143,6 +1297,7 @@ cloning without repeating expensive initialization logic!
 
 <div class="page-break"></div>
 
+<!-- SUMMARY COMPARISON TABLE -->
 <h1>SUMMARY COMPARISON OF CREATIONAL DESIGN PATTERNS</h1>
 
 <table class="comp-table">
